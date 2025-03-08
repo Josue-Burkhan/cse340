@@ -21,9 +21,9 @@ app.use(express.static("public"))
 
 
 //Index route
-app.get("/", function(req, res){
-  res.render("index", {title: "Home"})
-})
+app.get("/", (req, res) => {
+  res.render("layout", { title: "CSE Motors home", body: "index" });
+});
 
 /* ***********************
  * Local Server Information

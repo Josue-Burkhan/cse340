@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+    <body>
+        <div class="background"></div>
+        <div class="content-wrapper">
+            <%- include('partials/header') %>
+            <%- include('partials/navigation') %>
+
+            <main>
+            <%- include(body) %>
+            </main>
+
+            <%- include('partials/footer') %>
+            <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+</html>
