@@ -1,106 +1,24 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-:root {
-  --mainColor: #850000;
-}
-
-.background {
-  background-image: url("/images/site/small_check.jpg");
-  background-size: cover;
-  background-repeat: repeat;
-  background-position: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-}
-
-.content-wrapper {
-  max-width: 900px;
-  min-height: 80vh;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border: 5px solid var(--mainColor);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 1;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-/* Header */
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.logo {
-  text-decoration: none;
-  font-size: 2rem;
-  color: #000;
-  font-weight: 700;
-}
-
-.account-link {
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-}
-
-.nav-menu {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  margin: 0;
-  width: 100%;
-  background-color: var(--mainColor);
-}
-
-.nav-menu li {
-  margin: 0 15px;
-}
-
-.nav-menu a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-}
-
 /*Main*/
 h1 {
   margin: 30px 0;
 }
+
 .hero {
-  background: url('/images/vehicles/delorean.jpg')  no-repeat center center/contain;
+  background: url('/images/vehicles/delorean.jpg') no-repeat center center/contain;
   height: 280px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding-left: 50px;
 }
+
 .hero-content {
   background: rgba(233, 233, 233, 0.856);
   padding: 20px;
   border-radius: 10px;
   color: var(--mainColor);
 }
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -111,33 +29,40 @@ h1 {
   text-decoration: none;
   border-radius: 5px;
 }
+
 .content {
   display: flex;
   justify-content: space-around;
   padding: 20px;
 }
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: end;
   gap: 10px;
 }
+
 h3 {
   margin: 20px 0;
 }
+
 hr {
   width: 3px;
   background-color: var(--mainColor);
 }
+
 .upgrade-item {
   background: white;
   padding: 10px;
   text-align: center;
   border-radius: 5px;
 }
+
 .reviews ul {
   padding: 0;
 }
+
 .reviews li {
   background: white;
   padding: 10px;
@@ -145,37 +70,7 @@ hr {
   border-radius: 5px;
 }
 
-/* Footer */
-footer {
-  font-size: 14px;
-}
-
 @media (max-width: 768px) {
-  .background {
-     display: none;
-  }
-  .content-wrapper {
-    max-width: 100%;
-    padding: 10px;
-    border: none;
-    margin: 0;
-  }
-
-  .header-container {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-  }
-
-  .nav-menu {
-    align-items: center;
-    padding: 5px 10px;
-  }
-
-  .nav-menu li {
-    margin: 10px 0;
-  }
-
   .hero {
     height: 200px;
     padding-left: 20px;
@@ -202,6 +97,7 @@ footer {
   .reviews ul {
     padding: 0 10px;
   }
+
   hr {
     display: none;
   }

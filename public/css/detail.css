@@ -1,0 +1,133 @@
+
+:root {
+    --mainColor: #850000;
+  }  
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.car-details {
+    display: flex;
+    gap: 20px;
+    max-width: 1000px;
+}
+
+.left {
+    flex: 1;
+}
+
+.left img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.thumbnails img {
+    width: 80px;
+    border-radius: 5px;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.price-box {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--mainColor);
+}
+
+.info-box p {
+    margin: 5px 0;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px;
+    background-color: var(--mainColor);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #4e0000;
+}
+
+.contact {
+    margin-top: 20px;
+}
+
+
+.info-box {
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+.info-box h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.vehicle-details {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-details p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.vehicle-details strong {
+    font-weight: bold;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--mainColor);
+}
+
+
+@media (max-width: 768px) {
+    .car-details {
+        flex-direction: column;
+    }
+}

@@ -11,7 +11,7 @@ const app = express()
 const static = require("./routes/static")
 const cors = require("cors");
 const baseController = require("./controllers/baseController")
-const Util = require("./utilities") 
+const utilities = require("./utilities/")
 const inventoryRoute = require("./routes/inventoryRoute")
 
 /* ***********************
@@ -21,14 +21,41 @@ app.use(static)
 app.use(cors())
 app.set("view engine", "ejs")
 app.use(express.static("public"))
-app.use(Util.addGlobalVariables)
+app.use(utilities.addGlobalVariables)
 
 //Index route
 app.get("/", (req, res) => {
-  res.render("layout", { title: "CSE Motors home", body: "index" })
+  res.render("layout", { title: "CSE Motors home", view: "index" })
 })
 // Inventory routes
 app.use("/inv", inventoryRoute)
+
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({ status: 404, message: 'Sorry, we appear to have lost that page.' })
+})
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+
+  let message = err.status == 404 ? err.message : "Oh no! There was a crash. Maybe try a different route?";
+
+  res.status(err.status || 500).render("layout", {
+    title: err.status || "Server Error",
+    nav,
+    view: "errors/error",
+    message
+  });
+});
+
+
+// Index route
+app.get("/", utilities.handleErrors(baseController.buildHome))
 
 /* ***********************
  * Local Server Information
@@ -42,3 +69,5 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on: http://${host}:${port}`)
 })
+
+

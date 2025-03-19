@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/css/detail.css">
+
+<div class="container">
+    <!-- Main Section -->
+    <div class="car-details">
+        <div class="left">
+            <img src="<%= car.inv_image || '/images/default-car.jpg' %>" alt="Image of <%= car.inv_make || 'Unknown' %> <%= car.inv_model || 'Unknown' %>">
+            <div class="thumbnails">
+                <img src="<%= car.inv_thumbnail || '/images/default-thumb.jpg' %>" alt="Thumbnail">
+            </div>
+        </div>
+        
+        <div class="right">
+            <h1><%= car.inv_year || 'Unknown' %> <%= car.inv_make || 'Unknown' %> <%= car.inv_model || 'Unknown' %></h1>
+            
+            <div class="price-box">
+                <h2>No-Haggle Price</h2>
+                <span class="price">$<%= car.inv_price ? car.inv_price.toLocaleString() : 'Unknown' %></span>
+            </div>
+
+            <div class="info-box">
+                    <h3>Details: </h3>
+                    <div class="vehicle-details">
+                        <p><strong>Description:</strong> <%= car.inv_description || 'No description available.' %></p>
+                    </div>
+                
+                    <div class="vehicle-details">
+                        <p><strong>Color:</strong> <%= car.inv_color || 'Unknown' %></p>
+                    </div>
+                
+                    <div class="vehicle-details">
+                        <p><strong>Miles:</strong> <%= car.inv_miles ? car.inv_miles.toLocaleString() : 'Unknown' %></p>
+                    </div>
+                
+                    <div class="vehicle-details">
+                        <p><strong>Stock #:</strong> <%= car.inv_stock || 'Unknown' %></p>
+                    </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn">Start My Purchase</button>
+                <button class="btn">Contact Us</button>
+                <button class="btn">Schedule Test Drive</button>
+                <button class="btn">Apply for Financing</button>
+            </div>
+
+            <div class="contact">
+                <p><strong>Call Us:</strong> 801-396-7886</p>
+                <p><strong>Visit Us:</strong> Your Dealership Address</p>
+            </div>
+        </div>
+    </div>
+</div>
