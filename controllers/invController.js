@@ -18,7 +18,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
         let nav = await utilities.getNav()
         const className = data[0].classification_name
 
-        res.render("layout", { 
+        res.render("layout", {
             title: className + " vehicles",
             nav,
             view: "inventory/classification",
@@ -44,7 +44,9 @@ invCont.buildByInvId = async function (req, res, next) {
         let nav = await utilities.getNav()
         let breadcrumbs = utilities.getBreadcrumbs(req, data[0].classification_id)
 
-        res.render("layout", { 
+        data[0].inv_price = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(data[0].inv_price)
+
+        res.render("layout", {
             title: data[0].inv_make + " " + data[0].inv_model,
             nav,
             breadcrumbs,

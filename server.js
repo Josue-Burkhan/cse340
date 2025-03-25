@@ -43,15 +43,22 @@ app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav();
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
 
-  let message = err.status == 404 ? err.message : "Oh no! There was a crash. Maybe try a different route?";
+  let status = err.status || 500;
+  let message = status == 404
+    ? err.message
+    : "Oh no! There was a crash. Maybe try a different route?";
 
-  res.status(err.status || 500).render("layout", {
-    title: err.status || "Server Error",
+  let details = process.env.NODE_ENV === "development" ? err.stack : "";
+
+  res.status(status).render("layout", {
+    title: `${status} Server Error`,
     nav,
     view: "errors/error",
-    message
+    message,
+    details
   });
 });
+
 
 
 // Index route

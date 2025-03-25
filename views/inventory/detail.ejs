@@ -15,7 +15,7 @@
             
             <div class="price-box">
                 <h2>No-Haggle Price</h2>
-                <span class="price">$<%= car.inv_price ? car.inv_price.toLocaleString() : 'Unknown' %></span>
+                <span class="price"><%= car.inv_price || 'Unknown' %></span>
             </div>
 
             <div class="info-box">
