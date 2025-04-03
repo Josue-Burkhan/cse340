@@ -1,0 +1,49 @@
+.flash-message {
+    background-color: #f8d7da;
+    color: var(--mainColor);
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.add-inventory-form {
+    background: #f4f4f4;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-inventory-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.add-inventory-form input,
+.add-inventory-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-inventory-form button {
+    background-color: var(--secondColor);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.add-inventory-form button:hover {
+    background-color: #004186;
+}

@@ -1,0 +1,50 @@
+.flash-message {
+    background-color: #f8d7da;
+    color: var(--mainColor);
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.inventory-management {
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.inventory-management h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.inventory-management ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inventory-management li {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.inventory-management a {
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+    background-color: var(--secondColor);
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: block;
+}
+
+.inventory-management a:hover {
+    background-color: #004186;
+}

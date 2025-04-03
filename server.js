@@ -6,6 +6,7 @@
  * Require Statements
  *************************/
 const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
@@ -15,7 +16,8 @@ const utilities = require("./utilities/")
 const inventoryRoute = require("./routes/inventoryRoute")
 const session = require("express-session")
 const pool = require('./database/')
-
+const accountRoutes = require("./routes/accountRoute");
+const bodyParser = require("body-parser")
 
 /* ***********************
  * Middleware
@@ -33,10 +35,20 @@ app.use(session({
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+/**************************
+ * View Engine and Templates
+ *************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
@@ -46,11 +58,11 @@ app.use(cors())
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(utilities.addGlobalVariables)
+app.use("/account", accountRoutes);
 
 //Index route
-app.get("/", (req, res) => {
-  res.render("layout", { title: "CSE Motors home", view: "index" })
-})
+app.get("/", utilities.handleErrors(baseController.buildHome))
+
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
@@ -74,7 +86,7 @@ app.use(async (err, req, res, next) => {
 
   let details = process.env.NODE_ENV === "development" ? err.stack : "";
 
-  res.status(status).render("layout", {
+  res.status(status).render("errors/error", {
     title: `${status} Server Error`,
     nav,
     view: "errors/error",
@@ -82,9 +94,6 @@ app.use(async (err, req, res, next) => {
     details
   });
 });
-
-// Index route
-app.get("/", utilities.handleErrors(baseController.buildHome))
 
 /* ***********************
  * Local Server Information

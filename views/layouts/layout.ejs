@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head') %>
+<%- include('../partials/head') %>
 
     <body>
         <div class="background"></div>
         <div class="content-wrapper">
-            <%- include('partials/header') %>
-            <%- include('partials/navigation') %>
+            <%- include('../partials/header') %>
+            <%- include('../partials/navigation') %>
             <main>
                 <%- breadcrumbs %> 
-                <%- include(view) %>
+                <%- body %>
             </main>
 
-            <%- include('partials/footer') %>
+            <%- include('../partials/footer') %>
             <script src="/js/script.js"></script>
         </div>
     </body>
