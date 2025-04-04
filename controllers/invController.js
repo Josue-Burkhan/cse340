@@ -1,7 +1,9 @@
-const invModel = require("../models/inventory-model")
-const utilities = require("../utilities/")
+const invModel = require("../models/inventory-model");
+const utilities = require("../utilities/");
+const { validationResult } = require("express-validator");
 
-const invCont = {}
+const invCont = {};
+
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
@@ -115,6 +117,8 @@ invCont.deleteClassification = async function (req, res, next) {
     }
 };
 
+
+
 invCont.getClassifications = async function () {
     try {
         return await invModel.getAllClassifications();
@@ -145,67 +149,102 @@ invCont.showAddClassification = async function (req, res, next) {
     }
 };
 
-/* ***************************
- * Add Inventory
- * ************************** */
+
+/***************************
+ * Show Add Inventory Page
+ ***************************/
 invCont.showAddInventory = async function (req, res, next) {
     try {
+        const classificationList = await utilities.buildClassificationList();
+        res.render("inventory/add-inventory", {
+            title: "Add New Vehicle",
+            classificationList,
+            vehicle_make: "",
+            vehicle_model: "",
+            vehicle_description: "",
+            vehicle_image: "/images/vehicles/no-image.png",
+            vehicle_thumbnail: "/images/vehicles/no-image.png",
+            vehicle_price: "",
+            vehicle_year: "",
+            vehicle_miles: "",
+            vehicle_color: "",
+            message: req.flash("message"),
+        });
+    } catch (error) {
+        console.error("Error showing add inventory page:", error);
+        next(error);
+    }
+};
+
+
+/***************************
+ * Add Inventory to Database
+ ***************************/
+invCont.addInventory = async function (req, res, next) {
+    const {
+        vehicle_make,
+        vehicle_model,
+        vehicle_year,
+        vehicle_description,
+        vehicle_image,
+        vehicle_thumbnail,
+        vehicle_price,
+        vehicle_miles,
+        vehicle_color,
+        classification_id
+    } = req.body;
+
+    try {
+        if (!vehicle_make || !vehicle_model || !vehicle_color || !classification_id) {
+            req.flash("message", "Make, model, color, and classification are required");
+            throw new Error("Validation failed");
+        }
+
+        if (!/^\d{4}$/.test(vehicle_year)) {
+            req.flash("message", "The year must be 4 digits (e.g., 2023)");
+            throw new Error("Invalid year");
+        }
+
+        const inv_price = parseFloat(vehicle_price);
+        const inv_miles = parseInt(vehicle_miles);
+
+        await invModel.addInventory(
+            vehicle_make,
+            vehicle_model,
+            vehicle_year,
+            vehicle_description,
+            vehicle_image || "/images/vehicles/no-image.png",
+            vehicle_thumbnail || "/images/vehicles/no-image.png",
+            inv_price,
+            inv_miles,
+            vehicle_color,
+            parseInt(classification_id)
+        );
+
+        req.flash("message", "Vehicle added!");
+        res.redirect("/inv/add-inventory");
+
+    } catch (error) {
+        console.error("Error adding vehicle:", error.message);
         const classificationList = await utilities.buildClassificationList();
 
         res.render("inventory/add-inventory", {
             title: "Add New Vehicle",
             classificationList,
-            message: req.flash('message'),
-            vehicle_make: '',
-            vehicle_model: '',
-            vehicle_year: '',
-            vehicle_price: '',
-        });
-    } catch (error) {
-        console.error("Error loading add-inventory page:", error);
-        req.flash("message", "Error loading the page.");
-        res.redirect("/inv");
-    }
-};
-
-
-
-invCont.addInventory = async function (req, res, next) {
-    const { vehicle_make, vehicle_model, vehicle_year, vehicle_price, classification_id } = req.body;
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        req.flash("message", "Please fill in all required fields.");
-        return res.render("inventory/add-inventory", {
-            title: "Add New Vehicle",
-            classificationList: await utilities.buildClassificationList(classification_id),
-            message: req.flash("message"),
-            vehicle_make,
-            vehicle_model,
-            vehicle_year,
-            vehicle_price,
-        });
-    }
-
-    try {
-        await invModel.addInventory(vehicle_make, vehicle_model, vehicle_year, vehicle_price, classification_id);
-        req.flash("message", "Vehicle added successfully!");
-        res.redirect("/inv");
-    } catch (error) {
-        console.error("Error adding vehicle:", error);
-        req.flash("message", "Failed to add vehicle.");
-        res.render("inventory/add-inventory", {
-            title: "Add New Vehicle",
-            classificationList: await utilities.buildClassificationList(classification_id),
-            message: req.flash("message"),
-            vehicle_make,
-            vehicle_model,
-            vehicle_year,
-            vehicle_price,
+            vehicle_make: vehicle_make || "",
+            vehicle_model: vehicle_model || "",
+            vehicle_description: vehicle_description || "",
+            vehicle_image: vehicle_image || "/images/vehicles/no-image.png",
+            vehicle_thumbnail: vehicle_thumbnail || "/images/vehicles/no-image.png",
+            vehicle_price: vehicle_price || "",
+            vehicle_year: vehicle_year || "",
+            vehicle_miles: vehicle_miles || "",
+            vehicle_color: vehicle_color || "",
+            classification_id: classification_id || "",
+            message: req.flash("message") || "Error adding vehicle."
         });
     }
 };
-
 
 
 module.exports = invCont;

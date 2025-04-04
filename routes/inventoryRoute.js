@@ -4,6 +4,7 @@ const invController = require("../controllers/invController");
 const classificationValidation = require("../utilities/classification-validation");
 const inventoryValidation = require("../utilities/inventory-validation");
 const utilities = require("../utilities/");
+const app = express();
 
 router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:invId", invController.buildByInvId);
@@ -23,20 +24,16 @@ router.post("/delete-classification/:classificationId", invController.deleteClas
 
 
 // Add inventory
-router.get("/add-inventory", async (req, res) => {
-    const classificationList = await utilities.buildClassificationList();
-    res.render("inventory/add-inventory", {
-        message: req.flash("message"),
-        title: "Add New Vehicle",
-        classificationList,
-        vehicle_make: '',
-        vehicle_model: '',
-        vehicle_year: '',
-        vehicle_price: '',
-        classification_id: ''
-    });
-});
 
-router.post("/add-inventory", inventoryValidation, invController.addInventory);
+router.get("/add-inventory", invController.showAddInventory);
+
+const multer = require("multer");
+const upload = multer({ dest: "public/images/vehicles" });
+
+router.post(
+    "/add-inventory",
+    inventoryValidation,
+    invController.addInventory
+  );
 
 module.exports = router;

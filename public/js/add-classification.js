@@ -7,6 +7,5 @@ function validateForm() {
         alert("Classification name must contain only letters.");
         return false;
     }
-
     return true;
 }

@@ -6,28 +6,71 @@
   <div class="flash-message"><%= message %></div>
 <% } %>
 
-<h1><%= title %></h1>
+<h1>Add New Vehicle</h1>
 
-<form action="/inv/add-inventory" method="POST" enctype="multipart/form-data" class="add-inventory-form">
-  <label for="vehicle_make">Make:</label>
-  <input type="text" id="vehicle_make" name="vehicle_make" value="<%= vehicle_make %>" required />
-  
-  <label for="vehicle_model">Model:</label>
-  <input type="text" id="vehicle_model" name="vehicle_model" value="<%= vehicle_model %>" required />
-  
-  <label for="vehicle_year">Year:</label>
-  <input type="number" id="vehicle_year" name="vehicle_year" value="<%= vehicle_year %>" required />
-  
-  <label for="vehicle_price">Price:</label>
-  <input type="number" id="vehicle_price" name="vehicle_price" value="<%= vehicle_price %>" required />
-  
+<form action="/inv/add-inventory" method="POST" class="add-inventory-form">
   <label for="classification_id">Classification:</label>
   <%- classificationList %>
 
-  <label for="vehicle_image">Image:</label>
-  <input type="file" id="vehicle_image" name="vehicle_image" accept="image/*" />
-  
+  <label for="vehicle_make">Make:</label>
+  <input type="text" id="vehicle_make" name="vehicle_make" value="<%= vehicle_make %>" minlength="3" required />
+
+  <label for="vehicle_model">Model:</label>
+  <input type="text" id="vehicle_model" name="vehicle_model" value="<%= vehicle_model %>" minlength="3" required />
+
+  <label for="vehicle_description">Description:</label>
+  <textarea id="vehicle_description" name="vehicle_description">
+    <%= typeof vehicle_description !== 'undefined' ? vehicle_description : '' %>
+  </textarea>
+
+  <!-- Image -->
+  <label for="vehicle_image">Image Path:</label>
+  <input type="text" 
+    id="vehicle_image" 
+    name="vehicle_image"
+    value="<%= typeof vehicle_image !== 'undefined' ? vehicle_image : '/images/vehicles/no-image.png' %>" 
+  />
+
+  <!-- Thumbnail -->
+  <label for="vehicle_thumbnail">Thumbnail Path:</label>
+  <input 
+    type="text" 
+    id="vehicle_thumbnail" 
+    name="vehicle_thumbnail" 
+    value="<%= typeof vehicle_thumbnail !== 'undefined' ? vehicle_thumbnail : '/images/vehicles/no-image.png' %>"  
+  />
+
+  <label for="vehicle_price">Price:</label>
+  <input type="number" id="vehicle_price" name="vehicle_price" value="<%= vehicle_price %>" step="0.01" required />
+
+  <label for="vehicle_year">Year:</label>
+  <input 
+    type="text" 
+    id="vehicle_year" 
+    name="vehicle_year" 
+    value="<%= vehicle_year %>" 
+    pattern="\d{4}"
+    title="Enter a 4-digit year (e.g., 2023)"
+    required 
+  />
+
+  <label for="vehicle_miles">Miles:</label>
+  <input 
+    type="number" 
+    id="vehicle_miles" 
+    name="vehicle_miles" 
+    value="<%= typeof vehicle_miles !== 'undefined' ? vehicle_miles : '' %>" 
+    required 
+  />
+
+  <label for="vehicle_color">Color:</label>
+  <input 
+    type="text" 
+    id="vehicle_color" 
+    name="vehicle_color" 
+    value="<%= vehicle_color %>" 
+    required 
+  />
+
   <button type="submit">Add Vehicle</button>
 </form>
-     
-<script src="/js/add-inventory.js"></script>
