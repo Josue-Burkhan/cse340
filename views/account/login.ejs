@@ -1,17 +1,16 @@
 <link rel="stylesheet" href="/css/login.css">
 <%- messages() %>
+
 <div class="container">
-    <h1><%= title %></h1>
-
-    <form action="/account/login" method="POST">
+    <h1>
+        <%= title %>
+    </h1>
+    <form id="loginForm" action="/account/login" method="post">
         <label for="account_email">Email:</label>
-        <input type="email" id="account_email" name="account_email" required >
-
+        <input type="email" id="account_email" name="account_email" required>
         <label for="account_password">Password:</label>
         <input type="password" id="account_password" name="account_password" required>
-
         <button type="submit">LOGIN</button>
     </form>
-
     <p class="signup-link">No account? <a href="/account/register">Sign-up</a></p>
 </div>
