@@ -120,6 +120,15 @@ main {
 }
 
 
+.flash-message, #messages {
+    background-color: #f8d7da;
+    color: var(--mainColor);
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
 
 /* Footer */
 footer {

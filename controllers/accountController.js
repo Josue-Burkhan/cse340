@@ -3,6 +3,8 @@ const accountModel = require("../models/account-model")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs");
 require("dotenv").config()
+const { body, validationResult } = require("express-validator");
+
 
 /* ****************************************
 *  Deliver login view
@@ -63,9 +65,6 @@ async function registerAccount(req, res) {
 /* ****************************************
  *  Process login request
  * ************************************ */
-/* ****************************************
- *  Process login request
- * ************************************ */
 async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
@@ -112,11 +111,10 @@ async function accountLogin(req, res) {
         }
     } catch (error) {
         console.error("Error en accountLogin:", error.message);
-        req.flash("notice", "Error en el servidor. Intenta de nuevo.");
+        req.flash("notice", "Error in the servidor. Try Again.");
         res.redirect("/account/login");
     }
 }
-
 
 async function buildAccountManagement(req, res) {
     try {
@@ -128,8 +126,110 @@ async function buildAccountManagement(req, res) {
         });
     } catch (error) {
         console.error("Error en buildAccountManagement:", error);
-        res.status(500).send("Error interno del servidor");
+        res.status(500).send("Error in the servidor");
     }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement }
+async function accountLogout(req, res) {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error while destroying session:", err);
+            return res.status(500).send("Failed to log out");
+        }
+        res.clearCookie("jwt");
+        res.redirect("/");
+    });
+}
+
+/* ****************************************
+ *  Deliver account update view
+ * *************************************** */
+async function buildUpdateAccount(req, res) {
+    try {
+        const account_id = req.params.id;
+        const accountData = await accountModel.getAccountById(account_id);
+        let nav = await utilities.getNav();
+
+        res.render("account/update-account", {
+            title: "Update Account",
+            nav,
+            errors: null,
+            accountData
+        });
+    } catch (error) {
+        console.error("Error en buildUpdateAccount:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+async function updateAccount(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.locals.account_firstname = req.body.account_firstname;
+        res.locals.account_lastname = req.body.account_lastname;
+        res.locals.account_email = req.body.account_email;
+
+        return res.render("account/update-account", {
+            title: "Update Account",
+            errors: errors.array(),
+            accountData: { account_id: req.body.account_id }
+        });
+    }
+    try {
+        const { account_id, account_firstname, account_lastname, account_email } = req.body;
+        const updateResult = await accountModel.updateAccount(
+            account_id,
+            account_firstname,
+            account_lastname,
+            account_email
+        );
+
+        if (updateResult) {
+            req.flash("success", "Account updated successfully!");
+            res.redirect("/account/");
+        } else {
+            req.flash("error", "Failed to update account.");
+            res.redirect(`/account/update/${account_id}`);
+        }
+    } catch (error) {
+        console.error("Error en updateAccount:", error);
+        req.flash("error", "Internal server error.");
+        res.redirect(`/account/update/${account_id}`);
+    }
+}
+
+async function updatePassword(req, res) {
+    const errors = validationResult(req);
+    const account_id = req.body.account_id;
+
+    if (!errors.isEmpty()) {
+        return res.render("account/update-account", {
+            title: "Update Account",
+            errors: errors.array(),
+            accountData: { account_id }
+        });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.account_password, 10);
+        await accountModel.updatePassword(account_id, hashedPassword);
+        req.flash("success", "Password updated!");
+        res.redirect("/account/");
+    } catch (error) {
+        console.error("Error en updatePassword:", error);
+        req.flash("error", "Failed to update password.");
+        res.redirect(`/account/update/${account_id}`);
+    }
+}
+
+module.exports = {
+    buildLogin,
+    buildRegister,
+    registerAccount,
+    accountLogin,
+    buildAccountManagement,
+    accountLogout,
+    buildUpdateAccount,
+    updateAccount,
+    updatePassword
+};

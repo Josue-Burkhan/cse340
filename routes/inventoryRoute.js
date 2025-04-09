@@ -4,36 +4,68 @@ const invController = require("../controllers/invController");
 const classificationValidation = require("../utilities/classification-validation");
 const inventoryValidation = require("../utilities/inventory-validation");
 const utilities = require("../utilities/");
-const app = express();
 
+/* ================================
+   Inventory Views
+================================ */
+
+// Inventory update route
+router.post(
+   "/update/",
+   inventoryValidation.inventoryRules,
+   inventoryValidation.checkUpdateData,
+   invController.updateInventory
+)
+
+
+/* ================================
+   Public Routes
+================================ */
+// Inventory by classification
 router.get("/type/:classificationId", invController.buildByClassificationId);
+
+// Inventory detail by vehicle ID
 router.get("/detail/:invId", invController.buildByInvId);
 
-///inv/
-router.get("/", (req, res) => {
-    res.render("inventory/management", {
-        message: req.flash("message"),
-        title: "Inventory Management",
-    });
-});
+// Inventory management view
+router.get("/",
+   utilities.checkAccountType("Employee", "Admin"),
+   invController.buildManagementView);
 
-// Add classification
-router.get("/add-classification", invController.showAddClassification);
-router.post("/add-classification", classificationValidation, invController.addClassification);
+// Inventory JSON (for dynamic dropdowns)
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+
+// Edit view for a specific vehicle
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
+
+
+/* ================================
+   Classification Routes
+================================ */
+
+router.get("/add-classification",
+   utilities.checkAccountType("Employee", "Admin"),
+   utilities.handleErrors(invController.buildAddClassification)
+);
+router.post("/add-classification",
+   utilities.checkAccountType("Employee", "Admin"),
+   utilities.handleErrors(invController.addClassification)
+);
 router.post("/delete-classification/:classificationId", invController.deleteClassification);
 
 
-// Add inventory
+/* ================================
+   Add Inventory Routes
+================================ */
 
 router.get("/add-inventory", invController.showAddInventory);
 
-const multer = require("multer");
-const upload = multer({ dest: "public/images/vehicles" });
-
 router.post(
-    "/add-inventory",
-    inventoryValidation,
-    invController.addInventory
-  );
+   "/add-inventory",
+   inventoryValidation.inventoryRules,
+   inventoryValidation.checkInventoryData,
+   invController.addInventory
+);
+
 
 module.exports = router;

@@ -1,0 +1,25 @@
+.btn-update {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-update:hover {
+    background-color: #0056b3;
+  }
+  
+  .inventory-section {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+  }
+  
+  .inventory-link {
+    color: #28a745;
+    text-decoration: none;
+  }

@@ -1,7 +1,9 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
+const accountModel = require("../models/account-model")
 require("dotenv").config()
+
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -140,35 +142,55 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
  * Middleware to check token validity
  **************************************** */
 
-Util.checkJWTToken = (req, res, next) => {
-  const protectedPaths = ["/account/", "/some/protected/path"];
+Util.checkJWTToken = async (req, res, next) => {
+  const protectedPaths = ["/account/", "/inventory/add-"];
+  res.locals.user = {
+    loggedIn: false,
+    username: null,
+    account_type: null
+  };
 
   if (req.cookies.jwt) {
-    jwt.verify(
-      req.cookies.jwt,
-      process.env.ACCESS_TOKEN_SECRET,
-      (err, accountData) => {
-        if (err) {
-          res.clearCookie("jwt");
-          if (protectedPaths.some(path => req.originalUrl.startsWith(path))) {
-            req.flash("notice", "Session expired. Please log in again.");
-          }
-          res.locals.loggedin = 0;
-          next();
-        } else {
-          res.locals.accountData = accountData;
-          res.locals.loggedin = 1;
-          next();
-        }
+    try {
+      const decoded = jwt.verify(
+        req.cookies.jwt,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+
+      const accountData = await accountModel.getAccountById(decoded.account_id);
+
+      if (accountData) {
+        res.locals.user = {
+          loggedIn: true,
+          username: accountData.account_firstname,
+          account_type: accountData.account_type,
+          account_id: accountData.account_id
+        };
       }
-    );
-  } else {
-    if (protectedPaths.some(path => req.originalUrl.startsWith(path))) {
-      req.flash("notice", "Please log in to continue.");
+    } catch (error) {
+      console.error("Error al verificar JWT:", error);
+      res.clearCookie("jwt");
     }
-    res.locals.loggedin = 0;
-    next();
   }
+
+  next();
+};
+
+
+Util.checkAccountType = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!res.locals.user?.loggedIn) {
+      req.flash("notice", "Please log in to access this page.");
+      return res.redirect("/account/login");
+    }
+
+    if (!allowedRoles.includes(res.locals.user.account_type)) {
+      req.flash("notice", "You do not have permission to access this page.");
+      return res.redirect("/account/login");
+    }
+
+    next();
+  };
 };
 
 module.exports = Util
