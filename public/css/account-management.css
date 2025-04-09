@@ -1,25 +1,79 @@
-.btn-update {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    margin-bottom: 1rem;
-  }
-  
-  .btn-update:hover {
-    background-color: #0056b3;
-  }
-  
-  .inventory-section {
-    margin-top: 2rem;
-    padding: 1rem;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-  }
-  
-  .inventory-link {
-    color: #28a745;
-    text-decoration: none;
-  }
+body {
+  background-color: #ffffff;
+  color: #111;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+.main {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--mainColor);
+  margin-bottom: 1rem;
+}
+
+.account-status p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.account-type {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-left: 0.4rem;
+}
+
+.account-type.employee {
+  background-color: var(--secondColor);
+}
+
+.account-type.admin {
+  background-color: var(--mainColor);
+}
+
+.update-section,
+.inventory-section {
+  margin-top: 1.5rem;
+}
+
+.inventory-section p {
+  text-align: center;
+}
+
+.btn-update,
+.inventory-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--secondColor);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-update:hover,
+.inventory-link:hover {
+  background-color: #003369;
+}
+
+.flash-message {
+  margin-bottom: 1.2rem;
+  padding: 0.6rem 1rem;
+  background-color: #fcebea;
+  color: var(--mainColor);
+  border: 1px solid var(--mainColor);
+  border-radius: 4px;
+}

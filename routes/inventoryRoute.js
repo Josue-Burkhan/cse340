@@ -45,7 +45,7 @@ router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryVi
 
 router.get("/add-classification",
    utilities.checkAccountType("Employee", "Admin"),
-   utilities.handleErrors(invController.buildAddClassification)
+   utilities.handleErrors(invController.showAddClassification)
 );
 router.post("/add-classification",
    utilities.checkAccountType("Employee", "Admin"),
@@ -65,6 +65,12 @@ router.post(
    inventoryValidation.inventoryRules,
    inventoryValidation.checkInventoryData,
    invController.addInventory
+);
+
+router.post(
+   "/delete/:inv_id",
+   utilities.checkAccountType("Employee", "Admin"),
+   utilities.handleErrors(invController.deleteInventory)
 );
 
 

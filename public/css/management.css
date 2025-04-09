@@ -36,7 +36,8 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.inventory-management a {
+.inventory-management a, 
+.inventory-management form {
     text-decoration: none;
     font-size: 16px;
     color: white;
@@ -45,12 +46,34 @@
     border-radius: 5px;
     display: block;
 }
+.inventory-management button {
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    background: none;
+    border: none;
+}
 
 .inventory-management a:hover {
     background-color: #004186;
 }
 
 /* Inventory Table*/
+.manage-inv {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.manage-inv select {
+    padding: 10px ;
+    background-color: var(--secondColor);
+    color: #fff;
+    cursor: pointer;
+    border: none;
+}
+
 .styled-table {
     width: 100%;
     border-collapse: collapse;

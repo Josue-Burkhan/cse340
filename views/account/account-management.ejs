@@ -1,28 +1,31 @@
-<link rel="stylesheet" href="/css/account-management">
+<link rel="stylesheet" href="/css/account-management.css">
 
-<h1>Account Management</h1>
-<%- messages() %>
-
-<% if (user && user.loggedIn) { %>
-
-  <h2>Welcome <%= user.username %></h2>
-  <div class="account-status">
-    <p>You're logged in as: <span class="account-type <%= user.account_type.toLowerCase() %>"><%= user.account_type %></span></p>
-  </div>
-
-
-  <div class="update-section">
-    <a href="/account/update/<%= user.account_id %>" class="btn-update">Update Account Information</a>
-  </div>
-
-  <% if (user.account_type === 'Employee' || user.account_type === 'Admin') { %>
-    <div class="inventory-section">
-      <h3>Inventory Management</h3>
-      <p><a href="/inv" class="inventory-link">Manage Inventory</a></p>
+<div class="main">
+  <h1>Account Management</h1>
+  <%- messages() %>
+  
+  <% if (user && user.loggedIn) { %>
+  
+    <h2>Welcome <%= user.username %></h2>
+    <div class="account-status">
+      <p>You're logged in as: <span class="account-type <%= user.account_type.toLowerCase() %>"><%= user.account_type %></span></p>
     </div>
+  
+  
+    <div class="update-section">
+      <a href="/account/update/<%= user.account_id %>" class="btn-update">Update Account Information</a>
+    </div>
+  
+    <% if (user.account_type === 'Employee' || user.account_type === 'Admin') { %>
+      <div class="inventory-section">
+        <h3>Inventory Management</h3>
+        <p><a href="/inv" class="inventory-link">Manage Inventory</a></p>
+      </div>
+    <% } %>
+  
+  <% } else { %>
+    <p>Please log in to view this page.</p>
   <% } %>
-
-<% } else { %>
-  <p>Please log in to view this page.</p>
-<% } %>
+  
+</div>
 

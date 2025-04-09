@@ -186,6 +186,34 @@ async function updateInventory(
   }
 }
 
+async function deleteInventoryById(inv_id) {
+  try {
+    const sql = "DELETE FROM inventory WHERE inv_id = $1";
+    const result = await pool.query(sql, [inv_id]);
+    return result.rowCount > 0;
+  } catch (error) {
+    throw new Error("Delete failed: " + error.message);
+  }
+}
+
+async function getAllInventory() {
+  try {
+    const sql = `
+      SELECT i.inv_id, i.inv_make, i.inv_model, c.classification_name
+      FROM inventory AS i
+      JOIN classification AS c
+      ON i.classification_id = c.classification_id
+      ORDER BY i.inv_make, i.inv_model
+    `;
+    const result = await pool.query(sql);
+    return result.rows;
+  } catch (error) {
+    console.error("Error fetching all inventory: ", error);
+    throw error;
+  }
+}
+
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -195,5 +223,7 @@ module.exports = {
   getAllClassifications,
   addInventory,
   buildClassificationList,
-  updateInventory
+  updateInventory,
+  deleteInventoryById,
+  getAllInventory
 }

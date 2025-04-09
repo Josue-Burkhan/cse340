@@ -37,7 +37,11 @@ function buildInventoryList(data) {
         console.log(element.inv_id + ", " + element.inv_model);
         dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
         dataTable += `<td><a href='/inv/edit/${element.inv_id}' title='Click to update'>Modify</a></td>`;
-        dataTable += `<td><a href='/inv/delete/${element.inv_id}' title='Click to delete'>Delete</a></td></tr>`;
+        dataTable += `<td>
+    <form action="/inv/delete/${element.inv_id}" method="POST" onsubmit="return confirm('Are you sure you want to delete this vehicle?');">
+      <button type="submit">Delete</button>
+    </form>
+    </td></tr>`;
     })
     dataTable += '</tbody>';
     // Display the contents in the Inventory Management view 
