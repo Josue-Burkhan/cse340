@@ -1,0 +1,45 @@
+.classifications-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .classifications-container li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .classifications-container li span {
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .delete-form {
+    margin: 0;
+  }
+  
+  .delete-form button {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .delete-form button:hover {
+    background-color: #d62828;
+  }
+  

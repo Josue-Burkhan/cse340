@@ -85,6 +85,7 @@ invCont.addClassification = async function (req, res, next) {
             message: req.flash("message"),
             nav
         });
+        res.redirect("/inv");
 
     } catch (error) {
         req.flash("message", "Failed to add classification.");
@@ -101,7 +102,7 @@ invCont.deleteClassification = async function (req, res, next) {
         const classification_id = parseInt(req.params.classificationId);
         if (isNaN(classification_id)) {
             req.flash("message", "Invalid classification ID.");
-            return res.redirect("/inv");
+            return res.redirect("/inv/delete-classification");
         }
 
         const result = await invModel.deleteClassification(classification_id);
@@ -111,13 +112,24 @@ invCont.deleteClassification = async function (req, res, next) {
             req.flash("message", "Classification deleted successfully!");
         }
 
-        res.redirect("/");
+        res.redirect("/inv");
     } catch (error) {
         next(error);
     }
 };
 
-
+invCont.buildDeleteClassification = async function (req, res, next) {
+    try {
+        const classifications = await invModel.getAllClassifications();
+        res.render("inventory/delete-classification", {
+            title: "Delete Classification",
+            classifications,
+            message: req.flash("message")
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 invCont.getClassifications = async function () {
     try {
@@ -374,18 +386,18 @@ invCont.updateInventory = async function (req, res, next) {
 invCont.deleteInventory = async function (req, res) {
     const inv_id = req.params.inv_id;
     const result = await invModel.deleteInventoryById(inv_id);
-  
+
     let nav = await utilities.getNav();
     const inventory = await invModel.getAllInventory();
-  
+
     if (result) {
-      req.flash("notice", "Vehicle was successfully deleted.");
+        req.flash("notice", "Vehicle was successfully deleted.");
     } else {
-      req.flash("notice", "Sorry, the delete failed.");
+        req.flash("notice", "Sorry, the delete failed.");
     }
-  
+
     res.redirect("/inv");
-  };
+};
 
 
 module.exports = invCont;

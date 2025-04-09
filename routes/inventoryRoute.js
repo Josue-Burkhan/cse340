@@ -51,7 +51,14 @@ router.post("/add-classification",
    utilities.checkAccountType("Employee", "Admin"),
    utilities.handleErrors(invController.addClassification)
 );
-router.post("/delete-classification/:classificationId", invController.deleteClassification);
+
+router.get("/delete-classification",
+   utilities.checkAccountType("Employee", "Admin"),
+   invController.buildDeleteClassification);
+
+router.post("/delete-classification/:classificationId",
+   utilities.checkAccountType("Employee", "Admin"),
+   invController.deleteClassification);
 
 
 /* ================================
