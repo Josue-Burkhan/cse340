@@ -1,5 +1,5 @@
 CREATE TYPE public.account_type AS ENUM ('Client', 'Employee', 'Admin');
-ALTER TYPE public.account_type OWNER TO josue_burkhan;
+ALTER TYPE public.account_type OWNER TO cse_340_database_2_user;
 
 -- Table structure for table `classification`
 CREATE TABLE public.classification (
