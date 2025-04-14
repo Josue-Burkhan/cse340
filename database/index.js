@@ -3,8 +3,14 @@ require("dotenv").config();
 
 let pool;
 
+/* ***************
+ * Connection Pool
+ * SSL Object needed for local testing of app
+ * But will cause problems in production environment
+ * If - else will make determination which to use
+ * *************** */
+
 if (process.env.NODE_ENV === "production") {
-  // En producción (Render) => usa SSL
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -12,13 +18,11 @@ if (process.env.NODE_ENV === "production") {
     },
   });
 } else {
-  // En desarrollo local => sin SSL
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
   });
 }
 
-// Versión que soporta logs si quieres
 module.exports = {
   async query(text, params) {
     try {
